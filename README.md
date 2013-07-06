@@ -39,8 +39,11 @@ Troubleshooting:
 Protocol
 --------
  pattern=int
+ 
  tick=float
+ 
  finger1=float
+ 
  finger2=float
 
 ...which I'll interpret like this:
