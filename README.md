@@ -11,7 +11,7 @@ Ensure LEDs are powered, then run **sudo python Flasher.py**
 
 Flasher.py does the following:
 * Starts SuperSimple.py (minimalist socket server) in a child thread
-* Connects to LED string via GPIO (use fakeMode == true to bypass)
+* Connects to LED string via GPIO (use fakeMode == True to bypass)
 * Writes to a log file (called 'log')
 * Then loops indefinitely:
   * Checks to see if SuperSimple has written anything to stdout. If so, process this input (e.g., change tick time or pattern or whatever)
