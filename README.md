@@ -38,13 +38,13 @@ Troubleshooting:
 
 Protocol
 --------
-pattern=_int_
+pattern=int
 
-tick=_float_
+tick=float
 
-finger1=_float_
+finger1=float
 
-finger2=_float_
+finger2=float
 
 ...which I'll interpret like this:
 
