@@ -1,11 +1,16 @@
 #attempt 5 - using queues... original source here:
 #http://stackoverflow.com/questions/375427/non-blocking-read-on-a-subprocess-pipe-in-python/437888#437888
 
+fakeMode = True
+
 import sys
 import math
 import time
 from random import randint
-from LedStrip_WS2801 import LedStrip_WS2801
+if fakeMode == False:
+	from LedStrip_WS2801 import LedStrip_WS2801
+else:
+	from LedStrip_WS2801 import LedStrip_Fake
 
 # queues
 from subprocess import PIPE, Popen
@@ -35,14 +40,26 @@ def randomString(ledStrip):
 	ledStrip.update()
 	time.sleep(0)
 
-ledStrip = LedStrip_WS2801("/dev/spidev0.0", 25)
+
 
 #START
-tick = 0.05
-if len(sys.argv) > 1:
-	tick = float(sys.argv[1])
 f = open('log','w')
 f.write(sys.argv[0] + ' HELLO WORLD @ {0}\n'.format(time.time()))
+
+tick = 0.05
+nodes = 25
+
+if fakeMode == False:
+	f.write(sys.argv[0] + ' starting in REAL mode\n')
+	ledStrip = LedStrip_WS2801("/dev/spidev0.0", nodes)
+else:
+	print sys.argv[0] + ' WARNING: fakeMode is True'
+	f.write(sys.argv[0] + ' starting in FAKE mode\n')
+	ledStrip = LedStrip_Fake(nodes)
+	tick = 1.5
+
+if len(sys.argv) > 1:
+	tick = float(sys.argv[1])
 f.write(sys.argv[0] + ' - starting SuperSimple.py @ {0}\n'.format(time.time()))
 
 # queues

@@ -16,6 +16,8 @@
 
 #source: https://github.com/hackerspaceshop/RaspberryPI_WS2801_Bridge
 
+import sys
+
 class LedStrip_WS2801:	
 	def __init__(self, spiDevice, nLeds, nBuffers=1):
 		self.f = open(spiDevice, "w")
@@ -36,6 +38,32 @@ class LedStrip_WS2801:
 	def update(self, bufferNr=0):
 		self.f.write(self.buffers[bufferNr])
 		self.f.flush()
+
+	def setAll(self, color, bufferNr=0):
+		for i in range(0, self.nLeds):
+			self.setPixel(i, color, bufferNr) 
+
+	def setPixel(self, index, color, bufferNr=0):
+		self.buffers[bufferNr][index*3:index*3+3] = (color[0], color[2], color[1])
+		
+class LedStrip_Fake:
+	def __init__(self, nLeds, nBuffers=1):
+		self.nLeds = nLeds
+		self.nBuffers = nBuffers
+		self.buffers = []
+		for i in range(0, nBuffers):
+			ba = bytearray()
+			for l in range(0, nLeds):
+				ba.extend([0,0,0])
+			self.buffers.append(ba)
+
+	def close(self):
+		#nothing to do
+		tmp = 0
+
+	def update(self, bufferNr=0):
+		print(str(self.buffers[bufferNr]))
+		sys.stdout.flush()
 
 	def setAll(self, color, bufferNr=0):
 		for i in range(0, self.nLeds):
