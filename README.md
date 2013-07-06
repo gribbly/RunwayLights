@@ -7,7 +7,7 @@ Requires
 
 Instructions
 ------------
-* sudo python Flasher.py
+Ensure LEDs are powered, then run **sudo python Flasher.py**
 
 Flasher.py does the following:
 * Starts SuperSimple.py (minimalist socket server) in a child thread
