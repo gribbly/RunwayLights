@@ -30,5 +30,7 @@ To connect to the socket server
  1. Valid numbers should change the tick time
  2. Invalid input - you'll see NaN in the stdout of Flasher.py
  
- Troubleshooting:
- * If you can't connect to the socket, try **ps -A | grep Super** and ensure that Flasher.py has launched SuperSimple.py 
+
+Troubleshooting:
+----------------
+* If you can't connect to the socket, try **ps -A | grep Super** and ensure that Flasher.py has launched SuperSimple.py 
