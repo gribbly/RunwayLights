@@ -1,10 +1,12 @@
 RunwayLights
 ============
 
-Requires: 
+Requires
+--------
 * Occidentalis v0.2
 
-Instructions:
+Instructions
+------------
 * sudo python Flasher.py
 
 Flasher.py does the following:
@@ -15,17 +17,18 @@ Flasher.py does the following:
   * Checks to see if SuperSimple has written anything to stdout. If so, process this input (e.g., change tick time or pattern or whatever)
   * Update LED pattern(s)
 
-To connect to the socket server:
+To connect to the socket server
+-------------------------------
 
 (NOTE: We are not running the pi as an access point yet! This requires both the pi and whatever is running websocket.html to be connected to the same network)
 
-Load websocket.html in a browser
-Change the address to ws://raspberrypi.local:8000/
-Make sure Flasher.py is running
-Hit "Connect" (should see "connected" in the output)
-No enter numbers (like 0.1, 1.0, 3.0) and hit "Send"
- Valid numbers should change the tick time
- Invalid input - you'll see NaN in the stdout of Flasher.py
+1. Load websocket.html in a browser
+2. Change the address to ws://raspberrypi.local:8000/
+3. Make sure Flasher.py is running
+4. Hit "Connect" (should see "connected" in the output)
+5. No enter numbers (like 0.1, 1.0, 3.0) and hit "Send"
+ 1. Valid numbers should change the tick time
+ 2. Invalid input - you'll see NaN in the stdout of Flasher.py
  
  Troubleshooting:
- * If you can't connect to the socket, try ''ps -A | grep Super'' and ensure that Flasher.py has launched SuperSimple.py 
+ * If you can't connect to the socket, try **ps -A | grep Super** and ensure that Flasher.py has launched SuperSimple.py 
