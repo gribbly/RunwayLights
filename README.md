@@ -56,4 +56,4 @@ pattern=1,tick=0.5
 
 Troubleshooting:
 ----------------
-* If Flasher.py crashes you may need to kill the server manually before restarting. Get PID from **ps -A | grep Super** then do **sudo kill <pid>**.
+* If Flasher.py crashes you may need to kill the server manually before restarting. Get PID from **ps -A | grep Super** then do **sudo kill PID**.
