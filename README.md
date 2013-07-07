@@ -61,9 +61,13 @@ Troubleshooting:
 Workflow Notes
 --------------
 Git:
+
 **git pull origin master**
+
 **git add FILE**
+
 **git commit -a** (then save commit message via nano)
+
 **git push**
 
 
