@@ -57,3 +57,13 @@ pattern=1,tick=0.5
 Troubleshooting:
 ----------------
 * If Flasher.py crashes you may need to kill the server manually before restarting. Get PID from **ps -A | grep Super** then do **sudo kill PID**.
+
+Workflow Notes
+--------------
+Git:
+**git pull origin master**
+**git add FILE**
+**git commit -a** (then save commit message via nano)
+**git push**
+
+
