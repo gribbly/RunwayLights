@@ -1,7 +1,7 @@
 #attempt 5 - using queues... original source here:
 #http://stackoverflow.com/questions/375427/non-blocking-read-on-a-subprocess-pipe-in-python/437888#437888
 
-fakeMode = True
+fakeMode = False
 
 import sys
 import math
@@ -40,14 +40,25 @@ def randomString(ledStrip):
 	ledStrip.update()
 	time.sleep(0)
 
-
+def randomPoint(ledStrip):
+	p = randint(0, ledStrip.nLeds)
+	for i in range(0, ledStrip.nLeds):
+		if i == p:
+			ledStrip.setPixel(i,[255, 255, 255])
+		else:
+			ledStrip.setPixel(i, [0, 0, 0])
+	ledStrip.update()
+	time.sleep(0)
 
 #START
 f = open('log','w')
 f.write(sys.argv[0] + ' HELLO WORLD @ {0}\n'.format(time.time()))
 
+pattern = 1
 tick = 0.05
 nodes = 25
+finger1 = 1.0
+finger2 = 1.0
 
 if fakeMode == False:
 	f.write(sys.argv[0] + ' starting in REAL mode\n')
@@ -86,15 +97,39 @@ while True:
 	except Empty:
 		tmp = 0
 	else: # got line
-		try: tick = float(line)
-		except:
-			print('Nan')
-		else:
-			print('Tick update:' + str(line))
-			f.write(str(line) + '\n')
+		input = str(line).split(',')
+		command = input[0].split('=')
+		if command[0] == 'tick':
+			try: 
+				print('Got tick command')
+				f.write('Got tick command\n')
+				tick = float(command[1].rstrip())
+			except:
+				print('Bad tick input: ' + str(line))
+				f.write('Bad tick input: ' + str(line) + '\n')
+			else:
+				print('Tick update:' + str(tick))
+				f.write('Tick update: ' + str(tick) + '\n')
+		elif command[0] == 'pattern':
+			try: 
+				print('Got pattern command')
+				f.write('Got pattern command\n')
+				pattern = int(command[1].rstrip())
+			except:
+				print('Bad pattern input: ' + str(line))
+				f.write('Bad pattern input: ' + str(line) + '\n')
+			else:
+				print('Pattern update:' + str(pattern))
+				f.write('Pattern update: ' + str(pattern) + '\n')			
 
 	if time.time() > nextTick:
 		#f.write(sys.argv[0] + ' tick: {0}\n'.format(time.time()))
 		nextTick = time.time() + tick
 		#print 'tick: {0}'.format(tick)
-		randomString(ledStrip)
+		
+		if pattern == 0:
+			clearAll(ledStrip)
+		elif pattern == 1:
+			randomString(ledStrip)
+		elif pattern == 2:
+			randomPoint(ledStrip)
