@@ -39,19 +39,16 @@ Troubleshooting:
 Protocol
 --------
  pattern=int
- 
- tick=float
- 
- finger1=float
- 
- finger2=float
+ bpm=float
+ light=int
+ fire=int
 
 ...which I'll interpret like this:
 
 * pattern - I'll immediately switch to the specified pattern number (suggest we use ints not pattern names). Let's reserve pattern=0 for "everything off"
-* tick - tick time in seconds (so 1.0 means one second between pattern updates)
-* finger1 - send me a float from 0.0 to 1.0 representing how far along the string the user is pressing. So 0.5 for "halfway along". This means we can vary the number of nodes in the string if necessary without breaking anything later. Finger input will override any underlying pattern.
-* finger2 - as for finger1
+* bpm - pattern tempo in beats-per-minute. I will calculate tick from this.
+* light - turn on a specific light (in addition to current pattern)
+* fire - turn on a specific fire (in addition to current pattern)
 
 If we need to handle multiple parameters per message, comma separate them:
 
