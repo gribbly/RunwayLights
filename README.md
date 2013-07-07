@@ -10,12 +10,16 @@ Instructions
 Ensure LEDs are powered, then run **sudo python Flasher.py**
 
 Flasher.py does the following:
-* Starts SuperSimple.py (minimalist socket server) in a child thread
+* Starts SuperSimple.py (minimalist socket server) in a child thread (use noSocket = True to disable)
 * Connects to LED string via GPIO (use fakeMode = True to bypass)
 * Writes to a log file (called 'log')
 * Then loops indefinitely:
   * Checks to see if SuperSimple has written anything to stdout. If so, process this input (e.g., change tick time or pattern or whatever)
   * Update LED pattern(s)
+
+Note: You can pass a pattern int on the command line:
+
+**sudo python Flasher.py 3**
 
 To connect to the socket server
 -------------------------------
@@ -26,15 +30,8 @@ To connect to the socket server
 2. Change the address to ws://raspberrypi.local:8000/
 3. Make sure Flasher.py is running
 4. Hit "Connect" (should see "connected" in the output)
-5. No enter numbers (like 0.1, 1.0, 3.0) and hit "Send"
- 1. Valid numbers should change the tick time
- 2. Invalid input - you'll see NaN in the stdout of Flasher.py
- 
+5. Send protocol commands (see below)
 
-Troubleshooting:
-----------------
-* If you can't connect to the socket, try **ps -A | grep Super** and ensure that Flasher.py has launched SuperSimple.py
-* If you need to kill the socket server, get PID from above then **sudo kill <pid>**
 
 Protocol
 --------
@@ -57,3 +54,6 @@ If we need to handle multiple parameters per message, comma separate them:
 
 pattern=1,tick=0.5
 
+Troubleshooting:
+----------------
+* If Flasher.py crashes you may need to kill the server manually before restarting. Get PID from **ps -A | grep Super** then do **sudo kill <pid>**.
