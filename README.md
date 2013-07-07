@@ -38,10 +38,13 @@ Troubleshooting:
 
 Protocol
 --------
- pattern=int
- bpm=float
- light=int
- fire=int
+pattern=int
+
+bpm=float
+
+light=int
+
+fire=int
 
 ...which I'll interpret like this:
 
