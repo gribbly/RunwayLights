@@ -3,8 +3,8 @@
 
 #tweaks
 nodes = 25
-startPattern = 7 #starting pattern
-tick = 0.05 #starting tick
+startPattern = 8 #starting pattern
+tick = 0.06 #starting tick
 fakeMode = False
 noServer = False
 
@@ -119,9 +119,11 @@ while True:
 		elif pattern == 5:
 			Patterns.stringBlink(ledStrip)	
 		elif pattern == 6:			
-			Patterns.lightningStringBlink(ledStrip, 33)
+			Patterns.lightningStringBlink(ledStrip, 33) #probability
 		elif pattern == 7:
 			Patterns.stringPulsate(ledStrip)
+		elif pattern == 8:
+			Patterns.watery(ledStrip, 128) #intensity
 		else:
 			print sys.argv[0] + ' WARNING! bad pattern number {0}'.format(pattern)
 			f.write(sys.argv[0] + ' WARNING! bad pattern number {0}\n'.format(pattern))

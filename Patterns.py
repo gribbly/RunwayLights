@@ -119,4 +119,15 @@ def stringPulsate(ledStrip):
 	for i in range(0, ledStrip.nLeds):
 		ledStrip.setPixel(i,[sharedInt, sharedInt, sharedInt])
 	ledStrip.update()
-	time.sleep(0)	
+	time.sleep(0)
+
+def watery(ledStrip, intensity):
+	t = time.clock()
+	for i in range(0, ledStrip.nLeds):
+		p = math.sin(t + i)
+		p = abs(p) * intensity
+		p = int(p)
+		#print p
+		ledStrip.setPixel(i,[p, p, p])
+	ledStrip.update()
+	time.sleep(0)
