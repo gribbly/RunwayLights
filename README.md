@@ -26,18 +26,18 @@ To connect to the socket server
 
 (NOTE: We are not running the pi as an access point yet! This requires both the pi and whatever is running websocket.html to be connected to the same network)
 
-1. Load websocket.html in a browser
-2. Change the address to ws://raspberrypi.local:8000/
-3. Make sure Flasher.py is running
-4. Hit "Connect" (should see "connected" in the output)
-5. Send protocol commands (see below)
-
+1. Load websocket2.html in a browser
+2. Make sure Flasher.py is running
+3. If pi is in "home" mode, press "home" button to connect. If pi is in "playa" mode, press "playa" button to connect.
+4. If successful you should see "connected" in the output
+5. Use buttons to send preset protocol commands
+6. You can also type in arbitrary commands (see below for list) and hit "Send"
 
 Protocol
 --------
 pattern=int
 
-bpm=float
+bpm=float **NOTE** todo. This is currently "tick", I haven't converted to bpm yet
 
 light=int
 
