@@ -11,34 +11,31 @@ sides = [] #whole string
 side1 = [] #e.g, 0-12 (first half)
 side2 = [] #e.g, 13-25 (second half)
 rcIndex = 0
+rcStep = 1
 
 def log_event(msg):
 	print sys.argv[0] + " - " + msg	
 
 def create(ledStrip):
-	global side1, sides2, sides, rcIndex
+	global side1, sides2, sides, rcIndex, rcStep
 	log_event('create sides from {0} leds'.format(ledStrip.nLeds))
-	realLength = ledStrip.nLeds
-	length1 = realLength / 2
-	log_event('length1 is {0}'.format(length1))
+	lengthTotal = ledStrip.nLeds
+	length1 = lengthTotal / 2
+	length2 = lengthTotal - length1
+	log_event('Whole string: {0} Side 1: {1} Side 2: {2}'.format(lengthTotal, length1, length2))
 	
-	length2 = realLength - length1
-	log_event('length2 is {0}'.format(length2))
+	#initialize "rc" shared vars
+	rcIndex = 0
+	rcStep = 1
 	
 	#initialize sides to off
 	for i in range(0,length1):
 		side1.append(False)
 	for i in range(0,length2):
 		side2.append(False)
+
 	#initialize whole string from sides
 	sides = side1 + side2
-	
-	#dump what we got
-	log_event('sides has length {0}'.format(len(sides)))
-	for i in range(0, len(sides)):
-		print i, sides[i]
-	
-	print "--"
 
 def randomize():
 	global side1, side2, sides
@@ -62,7 +59,28 @@ def chase():
 	if rcIndex > len(side1):
 		rcIndex = 0
 
-	sides = side1 + side2	
+	sides = side1 + side2
+
+def chase2():
+	global side1, side2, sides, rcIndex, rcStep
+	for i in range(0,len(side1)): #assumes side1 is < side2
+		b = False
+		if i == rcIndex:
+			b = True
+
+		side1[i] = b
+		side2[i] = b
+	
+	rcIndex += rcStep
+	if rcIndex > len(side1):
+		rcIndex = len(side1)
+		rcStep = -1
+	
+	if rcIndex < 0:
+		rcIndex = 0
+		rcStep = 1
+
+	sides = side1 + side2
 	
 def update(ledStrip):
 	global sides

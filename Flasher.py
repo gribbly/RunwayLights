@@ -134,7 +134,7 @@ while True:
 		#print 'tick: {0}'.format(tick)
 		
 		if useRunwayControl == True:
-			RunwayControl.chase()
+			RunwayControl.chase2()
 			RunwayControl.update(ledStrip)
 		
 		if pattern == -1:
