@@ -24,20 +24,20 @@ Note: You can pass a pattern int on the command line:
 To connect to the socket server
 -------------------------------
 
-(NOTE: We are not running the pi as an access point yet! This requires both the pi and whatever is running websocket.html to be connected to the same network)
-
-1. Load websocket2.html in a browser
-2. Make sure Flasher.py is running
+1. Load websocket2.html in a browser on the client
+2. Make sure Flasher.py is running on the pi (host)
 3. If pi is in "home" mode, press "home" button to connect. If pi is in "playa" mode, press "playa" button to connect.
 4. If successful you should see "connected" in the output
-5. Use buttons to send preset protocol commands
-6. You can also type in arbitrary commands (see below for list) and hit "Send"
+5. Use buttons to send preset commands
+6. You can also type in arbitrary protocol commands (see below for list) and hit "Send"
 
 Protocol
 --------
 pattern=int
 
-bpm=float **NOTE** todo. This is currently "tick", I haven't converted to bpm yet
+tick=float
+
+bpm=float **NOTE** todo. Haven't implemented this yet.
 
 light=int
 
@@ -46,6 +46,7 @@ fire=int
 ...which I'll interpret like this:
 
 * pattern - I'll immediately switch to the specified pattern number (suggest we use ints not pattern names). Let's reserve pattern=0 for "everything off"
+* tick - directly set the delay between ticks in seconds (e.g, 0.1 is a tenth of a second-per-tick)
 * bpm - pattern tempo in beats-per-minute. I will calculate tick from this.
 * light - turn on a specific light (in addition to current pattern)
 * fire - turn on a specific fire (in addition to current pattern)
