@@ -3,10 +3,12 @@
 
 #tweaks
 nodes = 25
-startPattern = 8 #starting pattern
-tick = 0.06 #starting tick
+startPattern = 9 #starting pattern
+bpm = 120 #default bpm (not used)
+tick = 0.1 #starting tick
 fakeMode = False
-noServer = False
+noServer = True
+useRunwayControl = True
 
 import sys
 import time
@@ -15,6 +17,7 @@ if fakeMode == False:
 else:
 	from LedStrip_WS2801 import LedStrip_Fake
 import Patterns
+import RunwayControl
 
 # queues
 from subprocess import PIPE, Popen
@@ -29,16 +32,20 @@ def enqueue_output(out, queue):
     out.close()
 # /queues
 
+def log_event(msg):
+	f.write(sys.argv[0] + " - " + msg + "\n")
+	print sys.argv[0] + " - " + msg	
+
 #START
 f = open('log','w')
-f.write(sys.argv[0] + ' HELLO WORLD @ {0}\n'.format(time.time()))
+log_event(' HELLO WORLD @ {0}'.format(time.time()))
 
 if fakeMode == False:
-	f.write(sys.argv[0] + ' starting in REAL mode\n')
+	log_event(' starting in REAL mode')
 	ledStrip = LedStrip_WS2801("/dev/spidev0.0", nodes)
 else:
-	print sys.argv[0] + ' WARNING: fakeMode is True'
-	f.write(sys.argv[0] + ' starting in FAKE mode\n')
+	print '*** WARNING: fakeMode is True ***'
+	log_event('starting in FAKE mode')
 	ledStrip = LedStrip_Fake(nodes)
 	tick = 1.5
 
@@ -47,27 +54,30 @@ if len(sys.argv) > 1:
 	try:
 		pattern = int(sys.argv[1])
 	except:
-		print sys.argv[0] + ' WARNING! Bad pattern arg {0}'.format(sys.argv[1])
+		log_event('WARNING! Bad pattern arg {0}'.format(sys.argv[1]))
+if useRunwayControl == True:
+	pattern = -1
 
 if noServer == False:
-	f.write(sys.argv[0] + ' - starting SuperSimple.py @ {0}\n'.format(time.time()))
-	p = Popen(['./SuperSimple.py'], stdout=PIPE, bufsize=1, close_fds=ON_POSIX)
+	log_event('starting SuperSimple.py @ {0}'.format(time.time()))
+	p = Popen(['/home/pi/Flasher4/SuperSimple.py'], stdout=PIPE, bufsize=1, close_fds=ON_POSIX)
 	q = Queue()
 	t = Thread(target=enqueue_output, args=(p.stdout, q))
 	t.daemon = True # thread dies with the program
 	t.start()
-	f.write(sys.argv[0] + ' - started SuperSimple.py @ {0}\n'.format(time.time()))
+	log_event('started SuperSimple.py @ {0}'.format(time.time()))
 
-print sys.argv[0] + ' tick is {0}'.format(tick)
-f.write(sys.argv[0] + ' - tick is {0}\n'.format(tick))
-print sys.argv[0] + ' pattern is {0}'.format(pattern)
-f.write(sys.argv[0] + ' - pattern is {0}\n'.format(pattern))
+log_event('tick is {0}'.format(tick))
+log_event('pattern is {0}'.format(pattern))
 
 nextTick = time.time()
 
-f.write(sys.argv[0] + ' - we have {0} ws2801 nodes\n'.format(ledStrip.nLeds))
-f.write(sys.argv[0] + ' - clear strip @ {0}\n'.format(time.time()))
+log_event('we have {0} ws2801 nodes'.format(ledStrip.nLeds))
+log_event('clear strip @ {0}'.format(time.time()))
 Patterns.clearAll(ledStrip)
+
+if useRunwayControl == True:
+	RunwayControl.create(ledStrip)
 
 while True:	
 	if noServer == False:
@@ -79,34 +89,57 @@ while True:
 			command = input[0].split('=')
 			if command[0] == 'tick':
 				try: 
-					print('Got tick command')
-					f.write('Got tick command\n')
+					log_event('Got tick command')
 					tick = float(command[1].rstrip())
 				except:
-					print('Bad tick input: ' + str(line))
-					f.write('Bad tick input: ' + str(line) + '\n')
+					log_event('Bad tick input: ' + str(line))
 				else:
-					print('Tick update:' + str(tick))
-					f.write('Tick update: ' + str(tick) + '\n')
+					log_event('Tick update:' + str(tick))
+			elif command[0] == 'bpm':
+				try: 
+					log_event('Got bpm command')
+					bpm = float(command[1].rstrip())
+				except:
+					log_event('Bad bpm input: ' + str(line))
+				else:
+					log_event('Bpm update:' + str(float(command[1].rstrip())))
 			elif command[0] == 'pattern':
 				try: 
-					print('Got pattern command')
-					f.write('Got pattern command\n')
+					log_event('Got pattern command')
 					pattern = int(command[1].rstrip())
 				except:
-					print('Bad pattern input: ' + str(line))
-					f.write('Bad pattern input: ' + str(line) + '\n')
+					log_event('Bad pattern input: ' + str(line))
 				else:
-					print('Pattern update:' + str(pattern))
-					f.write('Pattern update: ' + str(pattern) + '\n')
-					Patterns.resetSharedVars()
+					log_event('Pattern update:' + str(pattern))
+					if useRunwayControl == false:
+						Patterns.resetSharedVars()
+			elif command[0] == 'light':
+				try: 
+					log_event('Got light command')
+				except:
+					log_event('Bad light input: ' + str(line))
+				else:
+					log_event('Light update:' + str(float(command[1].rstrip())))
+			elif command[0] == 'fire':
+				try: 
+					log_event('Got fire command')
+				except:
+					log_event('Bad fire input: ' + str(line))
+				else:
+					log_event('Fire update:' + str(float(command[1].rstrip())))
 
 	if time.time() > nextTick:
 		#f.write(sys.argv[0] + ' tick: {0}\n'.format(time.time()))
 		nextTick = time.time() + tick
 		#print 'tick: {0}'.format(tick)
 		
-		if pattern == 0:
+		if useRunwayControl == True:
+			RunwayControl.chase()
+			RunwayControl.update(ledStrip)
+		
+		if pattern == -1:
+			tmp = 0
+		elif pattern == 0:
 			Patterns.clearAll(ledStrip)
 		elif pattern == 1:
 			Patterns.randomString(ledStrip)
@@ -124,7 +157,8 @@ while True:
 			Patterns.stringPulsate(ledStrip)
 		elif pattern == 8:
 			Patterns.watery(ledStrip, 128) #intensity
+		elif pattern == 9:
+			Patterns.blueWatery(ledStrip, 128) #intensity
 		else:
-			print sys.argv[0] + ' WARNING! bad pattern number {0}'.format(pattern)
-			f.write(sys.argv[0] + ' WARNING! bad pattern number {0}\n'.format(pattern))
+			log_event('WARNING! bad pattern number {0}'.format(pattern))
 			pattern = 1 #set to something sane

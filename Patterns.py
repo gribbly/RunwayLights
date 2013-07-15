@@ -131,3 +131,14 @@ def watery(ledStrip, intensity):
 		ledStrip.setPixel(i,[p, p, p])
 	ledStrip.update()
 	time.sleep(0)
+
+def blueWatery(ledStrip, intensity):
+	t = time.clock()
+	for i in range(0, ledStrip.nLeds):
+		p = math.sin(t + i)
+		p = abs(p) * intensity
+		p = int(p)
+		#print p
+		ledStrip.setPixel(i,[0, p, 0])
+	ledStrip.update()
+	time.sleep(0)
