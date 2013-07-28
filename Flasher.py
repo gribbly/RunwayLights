@@ -79,6 +79,8 @@ Patterns.clearAll(ledStrip)
 if useRunwayControl == True:
 	RunwayControl.create(ledStrip)
 
+
+
 while True:	
 	if noServer == False:
 		try:  line = q.get_nowait() # or q.get(timeout=.1)
