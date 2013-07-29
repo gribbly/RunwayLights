@@ -3,10 +3,10 @@
 
 #tweaks
 nodes = 25
-startPattern = 9 #starting pattern
+startPattern = 4 #starting pattern
 bpm = 120 #default bpm (not used)
 tick = 0.1 #starting tick
-fakeMode = False
+fakeMode = True
 noServer = True
 useRunwayControl = True
 
@@ -47,7 +47,7 @@ else:
 	print '*** WARNING: fakeMode is True ***'
 	log_event('starting in FAKE mode')
 	ledStrip = LedStrip_Fake(nodes)
-	tick = 1.5
+	tick = .5
 
 pattern = startPattern
 if len(sys.argv) > 1:
