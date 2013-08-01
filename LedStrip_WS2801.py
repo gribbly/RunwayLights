@@ -17,6 +17,7 @@
 #source: https://github.com/hackerspaceshop/RaspberryPI_WS2801_Bridge
 
 import sys
+import terminal_color 
 
 class LedStrip_WS2801:	
 	def __init__(self, spiDevice, nLeds, nBuffers=1):
@@ -62,7 +63,11 @@ class LedStrip_Fake:
 		tmp = 0
 
 	def update(self, bufferNr=0):
-		print(str(self.buffers[bufferNr]))
+		# print(str(self.buffers[bufferNr]))
+		for idx in range (0, self.nLeds*3, 3) :
+			col = terminal_color.rgb24_to_short(self.buffers[bufferNr][idx], self.buffers[bufferNr][idx+1], self.buffers[bufferNr][idx+2])
+			terminal_color.print_color('o', bg=244, fg=col, end='')
+		print
 		sys.stdout.flush()
 
 	def setAll(self, color, bufferNr=0):
