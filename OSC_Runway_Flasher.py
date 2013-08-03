@@ -6,7 +6,7 @@ nodes = 25
 bpm = 120 #default bpm (not used)
 fakeMode = True
 noServer = True
-oscServer = True
+oscServer = False
 osc_client = None
 
 #parameters
