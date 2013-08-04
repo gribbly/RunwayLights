@@ -2,13 +2,16 @@
 #http://stackoverflow.com/questions/375427/non-blocking-read-on-a-subprocess-pipe-in-python/437888#437888
 
 #tweaks
-nodes = 25
-startPattern = 9 #starting pattern
+nodes = 9
+startPattern = 4 #starting pattern
 bpm = 120 #default bpm (not used)
 tick = 0.1 #starting tick
 fakeMode = False
 noServer = True
-useRunwayControl = True
+useRunwayControl = False
+
+#/steve test
+sliderIdx = 0
 
 import sys
 import time
@@ -47,7 +50,7 @@ else:
 	print '*** WARNING: fakeMode is True ***'
 	log_event('starting in FAKE mode')
 	ledStrip = LedStrip_Fake(nodes)
-	tick = 1.5
+	tick = .5
 
 pattern = startPattern
 if len(sys.argv) > 1:
@@ -136,7 +139,13 @@ while True:
 		#print 'tick: {0}'.format(tick)
 		
 		if useRunwayControl == True:
-			RunwayControl.chase2()
+#			RunwayControl.chase2()
+			#/steve
+			# temp code, surrogate for osc slider input
+			sliderIdx = sliderIdx+1
+			if sliderIdx>14:
+				sliderIdx = 0
+			RunwayControl.slider(sliderIdx)
 			RunwayControl.update(ledStrip)
 		
 		if pattern == -1:
