@@ -6,7 +6,7 @@ nodes = 9
 startPattern = 4 #starting pattern
 bpm = 120 #default bpm (not used)
 tick = 0.1 #starting tick
-fakeMode = False
+fakeMode = True
 noServer = True
 useRunwayControl = False
 
