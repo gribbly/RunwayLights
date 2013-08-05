@@ -116,7 +116,7 @@ while True:
 					log_event('Bad pattern input: ' + str(line))
 				else:
 					log_event('Pattern update:' + str(pattern))
-					if useRunwayControl == false:
+					if useRunwayControl == False:
 						Patterns.resetSharedVars()
 			elif command[0] == 'light':
 				try: 

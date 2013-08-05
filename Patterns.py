@@ -6,6 +6,7 @@ from random import randint
 sharedBool = False
 sharedIndex = 0
 sharedInt = 0
+sleepTime = 0
 
 def resetSharedVars():
 	global sharedBool
@@ -16,21 +17,24 @@ def resetSharedVars():
 	sharedInt = 0
 
 def clearAll(ledStrip):
+	global sleepTime
 	for i in range(0, ledStrip.nLeds):
 		ledStrip.setPixel(i, [0, 0, 0])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 	
 def randomString(ledStrip):
+	global sleepTime
 	for i in range(0, ledStrip.nLeds):
 		if randint(0,1) == 0:
 			ledStrip.setPixel(i, [0, 0, 0])
 		else:
 			ledStrip.setPixel(i,[255, 255, 255])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 
 def randomPoint(ledStrip):
+	global sleepTime
 	p = randint(0, ledStrip.nLeds)
 	for i in range(0, ledStrip.nLeds):
 		if i == p:
@@ -38,9 +42,10 @@ def randomPoint(ledStrip):
 		else:
 			ledStrip.setPixel(i, [0, 0, 0])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 	
 def simpleChaser(ledStrip):
+	global sleepTime
 	global sharedIndex
 	p = sharedIndex
 	sharedIndex += 1
@@ -52,9 +57,10 @@ def simpleChaser(ledStrip):
 		else:
 			ledStrip.setPixel(i, [0, 0, 0])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 	
 def cylonChaser(ledStrip):
+	global sleepTime
 	global sharedBool
 	global sharedIndex
 
@@ -72,13 +78,14 @@ def cylonChaser(ledStrip):
 
 	for i in range(0, ledStrip.nLeds):
 		if (i == sharedIndex):
-			ledStrip.setPixel(i,[255, 255, 255])
+			ledStrip.setPixel(i,[255, 0, 0])
 		else:
 			ledStrip.setPixel(i, [0, 0, 0])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 	
 def stringBlink(ledStrip):
+	global sleepTime
 	global sharedBool
 	b = sharedBool
 	for i in range(0, ledStrip.nLeds):
@@ -89,9 +96,10 @@ def stringBlink(ledStrip):
 			ledStrip.setPixel(i, [0, 0, 0])
 			sharedBool = True
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 
 def lightningStringBlink(ledStrip, probability):
+	global sleepTime
 	c = randint(0,100)
 	for i in range(0, ledStrip.nLeds):
 		if c < probability:
@@ -99,9 +107,10 @@ def lightningStringBlink(ledStrip, probability):
 		else:
 			ledStrip.setPixel(i, [0, 0, 0])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 
 def stringPulsate(ledStrip):
+	global sleepTime
 	global sharedBool
 	global sharedInt
 	if sharedBool == False:
@@ -119,9 +128,10 @@ def stringPulsate(ledStrip):
 	for i in range(0, ledStrip.nLeds):
 		ledStrip.setPixel(i,[sharedInt, sharedInt, sharedInt])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 
 def watery(ledStrip, intensity):
+	global sleepTime
 	t = time.clock()
 	for i in range(0, ledStrip.nLeds):
 		p = math.sin(t + i)
@@ -130,9 +140,10 @@ def watery(ledStrip, intensity):
 		#print p
 		ledStrip.setPixel(i,[p, p, p])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
 
 def blueWatery(ledStrip, intensity):
+	global sleepTime
 	t = time.clock()
 	for i in range(0, ledStrip.nLeds):
 		p = math.sin(t + i)
@@ -141,4 +152,4 @@ def blueWatery(ledStrip, intensity):
 		#print p
 		ledStrip.setPixel(i,[0, p, 0])
 	ledStrip.update()
-	time.sleep(0)
+	time.sleep(sleepTime)
