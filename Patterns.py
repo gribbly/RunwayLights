@@ -78,7 +78,7 @@ def cylonChaser(ledStrip):
 
 	for i in range(0, ledStrip.nLeds):
 		if (i == sharedIndex):
-			ledStrip.setPixel(i,[255, 0, 0])
+			ledStrip.setPixel(i,[255, 255, 255])
 		else:
 			ledStrip.setPixel(i, [0, 0, 0])
 	ledStrip.update()
