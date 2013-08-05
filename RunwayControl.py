@@ -81,14 +81,29 @@ def chase2():
 		rcStep = 1
 
 	sides = side1 + side2
-	
+
+
+def slider(idx):
+	global side1, side2, sides
+	for i in range(0,len(side1)):
+		b = False
+		if i < idx:
+			b = True
+
+		side1[i] = b
+		side2[i] = b
+
+	sides = side1 + side2
+
+
 def update(ledStrip):
 	global sides
+
 	for i in range(0, ledStrip.nLeds):
 		if sides[i] == False:
-			ledStrip.setPixel(i, [0, 0, 0])
+			ledStrip.setPixel(i, [1, 1, 1])
 		else:
-			ledStrip.setPixel(i, [255, 255, 255])
+			ledStrip.setPixel(i, [255, 0, 255])
 	ledStrip.update()
 	time.sleep(0)
 
