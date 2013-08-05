@@ -63,7 +63,9 @@ class LedStrip_Fake:
 		tmp = 0
 
 	def update(self, bufferNr=0):
-		# print(str(self.buffers[bufferNr]))
+		#uncomment next line to improve fakemode preview (in Cam's opinion!)
+		#sys.stderr.write("\x1b[2J\x1b[H") #clear screen each update = better preview
+		
 		for idx in range (0, self.nLeds*3, 3) :
 			col = terminal_color.rgb24_to_short(self.buffers[bufferNr][idx], self.buffers[bufferNr][idx+1], self.buffers[bufferNr][idx+2])
 			terminal_color.print_color('o', bg=244, fg=col, end='')
