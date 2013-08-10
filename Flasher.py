@@ -2,13 +2,14 @@
 #http://stackoverflow.com/questions/375427/non-blocking-read-on-a-subprocess-pipe-in-python/437888#437888
 
 #tweaks
-nodes = 9
+nodes = 48
 startPattern = 4 #starting pattern
 bpm = 120 #default bpm (not used)
-tick = 0.1 #starting tick
-fakeMode = True
-noServer = True
+tick = 0.02 #starting tick
+fakeMode = False
+noServer = False
 useRunwayControl = False
+manualLight = -1
 
 #/steve test
 sliderIdx = 0
@@ -96,6 +97,7 @@ while True:
 				try: 
 					log_event('Got tick command')
 					tick = float(command[1].rstrip())
+					nextTick = time.time()
 				except:
 					log_event('Bad tick input: ' + str(line))
 				else:
@@ -124,14 +126,15 @@ while True:
 				except:
 					log_event('Bad light input: ' + str(line))
 				else:
-					log_event('Light update:' + str(float(command[1].rstrip())))
+					log_event('Light update:' + str(int(command[1].rstrip())))
+					manualLight = int(command[1].rstrip())
 			elif command[0] == 'fire':
 				try: 
 					log_event('Got fire command')
 				except:
 					log_event('Bad fire input: ' + str(line))
 				else:
-					log_event('Fire update:' + str(float(command[1].rstrip())))
+					log_event('Fire update:' + str(int(command[1].rstrip())))
 
 	if time.time() > nextTick:
 		#f.write(sys.argv[0] + ' tick: {0}\n'.format(time.time()))
@@ -173,3 +176,7 @@ while True:
 		else:
 			log_event('WARNING! bad pattern number {0}'.format(pattern))
 			pattern = 1 #set to something sane
+
+		Patterns.manualControl(ledStrip, manualLight)
+			
+		Patterns.sharedUpdate(ledStrip)
